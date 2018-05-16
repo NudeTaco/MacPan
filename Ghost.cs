@@ -9,7 +9,7 @@ namespace MacPan
     class Ghost:MovingBody
     {
         public enum ghostNames{Pinky, Blinky, Inky, Clyde, Frank}
-        public ghostNames ghostName { get => ghostName; set => ghostName = value; }
+        public ghostNames ghostName;
 
         //todo add constructor
         public Ghost(ghostNames name) : base()
