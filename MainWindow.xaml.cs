@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,15 +24,16 @@ namespace MacPan
     {
         //todo add player and ghost variables after making constructors.
         DispatcherTimer gameTimer = new DispatcherTimer();
-        public int fps;
-        public int lives;
+        public int fps = 60;
+        public int lives = 3;
         public int score;
         List<Pill> pillList = new List<Pill>();
+        Player player;
         public MainWindow()
         {
-            //todo populate pill list
-
             InitializeComponent();
+            //todo populate pill list
+            player = new Player(canvas);
             gameTimer.Tick += gameTick;
             gameTimer.Interval += new TimeSpan(0, 0, 0, 1 / fps);
             gameTimer.Start();
