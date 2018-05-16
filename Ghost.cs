@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace MacPan
 {
@@ -11,10 +12,9 @@ namespace MacPan
         public enum ghostNames{Pinky, Blinky, Inky, Clyde, Frank}
         public ghostNames ghostName;
 
-        //todo add constructor
-        public Ghost(ghostNames name) : base()
+        public Ghost(ghostNames name, Canvas c) : base(c)
         {
-            this.ghostName = name;
+            ghostName = name;
         }
         public override void update()
         {

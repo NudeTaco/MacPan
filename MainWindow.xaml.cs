@@ -27,13 +27,14 @@ namespace MacPan
         public int fps = 60;
         public int lives;
         public int score;
-        Ghost Clyde = new Ghost(Ghost.ghostNames.Clyde);
+        Ghost Clyde;
         List<Pill> pillList = new List<Pill>();
         public MainWindow()
         {
             //todo populate pill list
 
             InitializeComponent();
+            Clyde = new Ghost(Ghost.ghostNames.Clyde, canvas);
             gameTimer.Tick += gameTick;
             gameTimer.Interval += new TimeSpan(0, 0, 0, 1 / fps);
             gameTimer.Start();
