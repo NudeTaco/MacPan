@@ -12,11 +12,15 @@ namespace MacPan
     {
         private double radius;
         private Point location;
-        private Ellipse sprite;
+        private Rectangle sprite;
+        //todo add public variables with get methods
+        public bool powerPill;
+        
+        //todo add constructor method
 
         public void destroy()
         {
-
+            //todo add destroy logic
         }
     }
 }

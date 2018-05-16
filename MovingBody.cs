@@ -19,20 +19,22 @@ namespace MacPan
         public direction BodyOrient { get => bodyOrient; }
         public Rectangle Sprite { get => sprite; }
 
+        //todo add constructor method
 
         public void drawBody()
         {
-
+            //todo add drawBody logic
         }
 
         public bool checkCollision()
         {
+            //todo add collision logic
             return false;
         }
 
         public virtual void update()
         {
-
+            //todo add update logic
         }
     }
 }
