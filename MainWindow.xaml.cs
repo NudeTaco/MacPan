@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,15 +25,15 @@ namespace MacPan
         //todo add player and ghost variables after making constructors.
         DispatcherTimer gameTimer = new DispatcherTimer();
         public int fps = 60;
-        public int lives = 3;
+        public int lives;
         public int score;
+        Ghost Clyde = new Ghost(Ghost.ghostNames.Clyde);
         List<Pill> pillList = new List<Pill>();
-        Player player;
         public MainWindow()
         {
-            InitializeComponent();
             //todo populate pill list
-            player = new Player(canvas);
+
+            InitializeComponent();
             gameTimer.Tick += gameTick;
             gameTimer.Interval += new TimeSpan(0, 0, 0, 1 / fps);
             gameTimer.Start();
@@ -41,7 +41,7 @@ namespace MacPan
 
         private void gameTick(object sender, EventArgs e)
         {
-            //todo add game update calls
+            //todo add game update calls 
         }
 
     }

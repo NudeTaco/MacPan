@@ -1,21 +1,20 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 
 namespace MacPan
 {
-    class Ghost : MovingBody
+    class Ghost:MovingBody
     {
-        public enum ghostNames { Pinky, Blinky, Inky, Clyde, Frank }
+        public enum ghostNames{Pinky, Blinky, Inky, Clyde, Frank}
         public ghostNames ghostName { get => ghostName; set => ghostName = value; }
 
         //todo add constructor
-        public Ghost(ghostNames name, Canvas c) : base(c)
+        public Ghost(ghostNames name) : base()
         {
-            ghostName = name;
+            this.ghostName = name;
         }
         public override void update()
         {
