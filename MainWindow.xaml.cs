@@ -22,6 +22,8 @@ namespace MacPan
     /// </summary>
     public partial class MainWindow : Window
     {
+        enum tiles { blank, wall, ghostGate, superPill}
+
         //todo add player and ghost variables after making constructors.
         DispatcherTimer gameTimer = new DispatcherTimer();
         public int fps = 60;
@@ -29,9 +31,26 @@ namespace MacPan
         public int score;
         Ghost Clyde;
         List<Pill> pillList = new List<Pill>();
+        //todo add logic for reading custom maps
+        tiles[,] gameboard = { { tiles.wall, tiles.wall, tiles.wall, tiles.wall, tiles.wall },
+                                        { tiles.wall, tiles.blank, tiles.blank, tiles.blank, tiles.wall,}, 
+                                        { tiles.wall, tiles.blank, tiles.superPill, tiles.blank, tiles.wall, },
+                                         { tiles.wall, tiles.blank, tiles.blank, tiles.blank, tiles.wall,},
+                                         { tiles.wall, tiles.wall, tiles.wall, tiles.wall, tiles.wall,}};
         public MainWindow()
         {
             //todo populate pill list
+            for(int i = 0; i<gameboard.GetLength(0); i++)
+            {
+                for(int c = 0; i<gameboard.GetLength(1); c++)
+                {
+                    if(gameboard[i,c] == tiles.blank || gameboard[i,c] == tiles.superPill)
+                    {
+                        //todo have pills location be dynamic
+                        Pill p = new Pill(gameboard[i, c] == tiles.superPill,new Point());
+                    }
+                }
+            }
 
             InitializeComponent();
             Clyde = new Ghost(Ghost.ghostNames.Clyde, canvas);
