@@ -12,7 +12,7 @@ namespace MacPan
         public enum ghostNames{Pinky, Blinky, Inky, Clyde, Frank}
         public ghostNames ghostName;
 
-        public Ghost(ghostNames name, Canvas c) : base(c)
+        public Ghost(ghostNames name, Canvas c) : base(c,null)
         {
             ghostName = name;
         }

@@ -1,30 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace MacPan
 {
     class Player : MovingBody
     {
+        //ResourceManager rm = new ResourceManager()
+        //todo test powerup logic
         private bool canEat = false;
         private double powerUpLength = 0;
-        private Timer powerUpTimer;
-        //todo add constructor method
-        public Player(Canvas c) : base(c)
+        private Timer powerUpTimer = new Timer();
+        public Player(Canvas c) : base(c, new Uri("pack://application:,,,/Images/MacPan.png"))
         {
-
+            this.speed = 10;
+            powerUpTimer.Elapsed += (sender, args) => { canEat = false; powerUpTimer.Stop(); };
+            this.bodyOrient = direction.none;
+            //todo fine tune speed
+            this.speed = 5;
         }
         public override void update()
         {
             //todo add update logic
+            if (Keyboard.IsKeyDown(Key.W)) this.bodyOrient = direction.up;
+            if (Keyboard.IsKeyDown(Key.D)) this.bodyOrient = direction.right;
+            if (Keyboard.IsKeyDown(Key.S)) this.bodyOrient = direction.down;
+            if (Keyboard.IsKeyDown(Key.A)) this.bodyOrient = direction.left;
+            base.update();
+            drawBody();
         }
         public void powerUp()
         {
-            //add powerup logic
+
+            this.canEat = true;
+            powerUpTimer.Interval = powerUpLength * 1000;
+            powerUpTimer.Start();
         }
     }
 }

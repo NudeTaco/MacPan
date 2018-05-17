@@ -30,6 +30,7 @@ namespace MacPan
         public int lives;
         public int score;
         Ghost Clyde;
+        Player p;
         List<Pill> pillList = new List<Pill>();
         //todo add logic for reading custom maps
         tiles[,] gameboard = { { tiles.wall, tiles.wall, tiles.wall, tiles.wall, tiles.wall },
@@ -42,26 +43,28 @@ namespace MacPan
             //todo populate pill list
             for(int i = 0; i<gameboard.GetLength(0); i++)
             {
-                for(int c = 0; i<gameboard.GetLength(1); c++)
+                for(int c = 0; c<gameboard.GetLength(1); c++)
                 {
                     if(gameboard[i,c] == tiles.blank || gameboard[i,c] == tiles.superPill)
                     {
                         //todo have pills location be dynamic
                         Pill p = new Pill(gameboard[i, c] == tiles.superPill,new Point());
+                        pillList.Add(p);
                     }
                 }
             }
-
             InitializeComponent();
-            Clyde = new Ghost(Ghost.ghostNames.Clyde, canvas);
+            //Clyde = new Ghost(Ghost.ghostNames.Clyde, canvas);
+            p = new Player(canvas);
             gameTimer.Tick += gameTick;
-            gameTimer.Interval += new TimeSpan(0, 0, 0, 1 / fps);
+            gameTimer.Interval += new TimeSpan(0, 0, 0, 0,1000/fps);
             gameTimer.Start();
         }
 
         private void gameTick(object sender, EventArgs e)
         {
             //todo add game update calls 
+            p.update();
         }
 
     }

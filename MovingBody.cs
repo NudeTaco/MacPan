@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace MacPan
@@ -13,28 +14,28 @@ namespace MacPan
     class MovingBody
     {
         //enum for direction
-        public enum direction { up, right, down, left};
-        private int speed = 10;
-        private direction bodyOrient;
+        public enum direction { up, right, down, left, none};
+        protected int speed;
+        protected direction bodyOrient;
         private Point bodyPos;
-        private Rectangle sprite;
+        protected Rectangle sprite;
         public Point BodyPos { get => bodyPos;  }
         public direction BodyOrient { get => bodyOrient; }
         public Rectangle Sprite { get => sprite; }
 
-        public MovingBody(Canvas c)
+        public MovingBody(Canvas c, Uri source)
         {
             sprite = new Rectangle();
-            sprite.Fill = Brushes.Black;
+            this.sprite.Fill = new ImageBrush(new BitmapImage(source));
             sprite.Height = 128;
             sprite.Width = 128;
             c.Children.Add(sprite);
         }
 
-        public void drawBody(Canvas c)
+        public void drawBody()
         {
             Canvas.SetTop(sprite, bodyPos.Y);
-            Canvas.SetTop(sprite, bodyPos.X);
+            Canvas.SetLeft(sprite, bodyPos.X);
 
         }
 
@@ -62,6 +63,7 @@ namespace MacPan
                     this.bodyPos.X += speed;
                     break;
                 default:
+                    Console.WriteLine("no move");
                     break;
             }
         }
