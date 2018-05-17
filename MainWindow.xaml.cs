@@ -48,7 +48,7 @@ namespace MacPan
                     if(gameboard[i,c] == tiles.blank || gameboard[i,c] == tiles.superPill)
                     {
                         //todo have pills location be dynamic
-                        Pill p = new Pill(gameboard[i, c] == tiles.superPill,new Point());
+                        Pill p = new Pill(gameboard[i, c] == tiles.superPill,new Point(), canvas);
                         pillList.Add(p);
                     }
                 }
