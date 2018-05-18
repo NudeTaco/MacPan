@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,12 +14,12 @@ namespace MacPan
     class MovingBody
     {
         //enum for direction
-        public enum direction { up, right, down, left, none};
+        public enum direction { up, right, down, left, none };
         protected int speed;
         protected direction bodyOrient;
         private Point bodyPos;
         protected Rectangle sprite;
-        public Point BodyPos { get => bodyPos;  }
+        public Point BodyPos { get => bodyPos; }
         public direction BodyOrient { get => bodyOrient; }
         public Rectangle Sprite { get => sprite; }
 
@@ -48,19 +48,23 @@ namespace MacPan
         public virtual void update()
         {
             //todo add update logic
-            switch(bodyOrient)
+            switch (bodyOrient)
             {
                 case direction.up:
                     this.bodyPos.Y -= speed;
+                    sprite.RenderTransform = new RotateTransform(270, sprite.Width / 2, sprite.Height / 2);
                     break;
                 case direction.down:
                     this.bodyPos.Y += speed;
+                    sprite.RenderTransform = new RotateTransform(90, sprite.Width / 2, sprite.Height / 2);
                     break;
                 case direction.left:
                     this.bodyPos.X -= speed;
+                    sprite.RenderTransform = new ScaleTransform(-1, 1, sprite.Width / 2, sprite.Height / 2);
                     break;
                 case direction.right:
                     this.bodyPos.X += speed;
+                    sprite.RenderTransform = new RotateTransform(0, sprite.Width / 2, sprite.Height / 2);
                     break;
                 default:
                     Console.WriteLine("no move");

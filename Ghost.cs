@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,12 +7,12 @@ using System.Windows.Controls;
 
 namespace MacPan
 {
-    class Ghost:MovingBody
+    class Ghost : MovingBody
     {
-        public enum ghostNames{Pinky, Blinky, Inky, Clyde, Frank}
+        public enum ghostNames { Pinky, Blinky, Inky, Clyde, Frank }
         public ghostNames ghostName;
 
-        public Ghost(ghostNames name, Canvas c) : base(c,null)
+        public Ghost(ghostNames name, Canvas c) : base(c, new Uri("pack://application:,,,/Images/MacPan.png"))
         {
             ghostName = name;
         }
