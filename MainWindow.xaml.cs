@@ -72,7 +72,7 @@ namespace MacPan
         private void gameTick(object sender, EventArgs e)
         {
             //todo add game update calls 
-            player.update();
+            player.update(ghosts);
             Console.WriteLine(player.checkCollision(Clyde));
         }
 
