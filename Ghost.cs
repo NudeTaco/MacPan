@@ -12,7 +12,7 @@ namespace MacPan
         public enum ghostNames { Pinky, Blinky, Inky, Clyde, Frank }
         public ghostNames ghostName;
 
-        public Ghost(ghostNames name, Canvas c) : base(c, new Uri("pack://application:,,,/Images/MacPan.png"))
+        public Ghost(ghostNames name, Canvas c) : base(c,name.ToString())
         {
             ghostName = name;
         }

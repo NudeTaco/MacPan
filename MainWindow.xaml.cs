@@ -34,6 +34,7 @@ namespace MacPan
         Ghost Blinky;
         Ghost Inky;
         Player player;
+        Ghost[] ghosts;
         List<Pill> pillList = new List<Pill>();
         //todo add logic for reading custom maps
         tiles[,] gameboard = { { tiles.wall, tiles.wall, tiles.wall, tiles.wall, tiles.wall },
@@ -43,6 +44,7 @@ namespace MacPan
                                          { tiles.wall, tiles.wall, tiles.wall, tiles.wall, tiles.wall,}};
         public MainWindow()
         {
+            ghosts =new Ghost[] { Clyde, Pinky, Blinky, Inky }; 
             //todo populate pill list
             for (int i = 0; i < gameboard.GetLength(0); i++)
             {
@@ -58,9 +60,9 @@ namespace MacPan
             }
             InitializeComponent();
             Clyde = new Ghost(Ghost.ghostNames.Clyde, canvas);
-            Pinky = new Ghost(Ghost.ghostNames.Pinky, canvas);
-            Blinky = new Ghost(Ghost.ghostNames.Blinky, canvas);
-            Inky = new Ghost(Ghost.ghostNames.Inky, canvas);
+            //Pinky = new Ghost(Ghost.ghostNames.Pinky, canvas);
+            //Blinky = new Ghost(Ghost.ghostNames.Blinky, canvas);
+            //Inky = new Ghost(Ghost.ghostNames.Inky, canvas);
             player = new Player(canvas);
             gameTimer.Tick += gameTick;
             gameTimer.Interval += new TimeSpan(0, 0, 0, 0, 1000 / fps);
@@ -71,6 +73,7 @@ namespace MacPan
         {
             //todo add game update calls 
             player.update();
+            Console.WriteLine(player.checkCollision(Clyde));
         }
 
     }

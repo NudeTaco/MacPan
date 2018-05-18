@@ -20,7 +20,7 @@ namespace MacPan
         private bool canEat = false;
         private double powerUpLength = 0;
         private Timer powerUpTimer = new Timer();
-        public Player(Canvas c) : base(c, new Uri("pack://application:,,,/Images/MacPan.png"))
+        public Player(Canvas c) : base(c, "MacPan")
         {
             this.speed = 10;
             powerUpTimer.Elapsed += (sender, args) => { canEat = false; powerUpTimer.Stop(); };
@@ -28,7 +28,7 @@ namespace MacPan
             //todo fine tune speed
             this.speed = 5;
         }
-        public override void update()
+        public void update(Ghost[] ghosts)
         {
             //todo add update logic
             if (Keyboard.IsKeyDown(Key.W)) this.bodyOrient = direction.up;
@@ -36,7 +36,16 @@ namespace MacPan
             if (Keyboard.IsKeyDown(Key.S)) this.bodyOrient = direction.down;
             if (Keyboard.IsKeyDown(Key.A)) this.bodyOrient = direction.left;
             base.update();
+            checkCollision(ghosts);
             drawBody();
+        }
+
+        private void checkCollision(Ghost[] ghosts)
+        {
+            foreach(Ghost g in ghosts)
+            {
+                this.checkCollision(g);
+            }
         }
         public void powerUp()
         {

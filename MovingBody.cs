@@ -23,10 +23,10 @@ namespace MacPan
         public direction BodyOrient { get => bodyOrient; }
         public Rectangle Sprite { get => sprite; }
 
-        public MovingBody(Canvas c, Uri source)
+        public MovingBody(Canvas c, string name)
         {
             sprite = new Rectangle();
-            this.sprite.Fill = new ImageBrush(new BitmapImage(source));
+            this.sprite.Fill = new ImageBrush(new BitmapImage(new Uri(string.Format("pack://application:,,,/Images/{0}.png", name))));
             sprite.Height = 128;
             sprite.Width = 128;
             c.Children.Add(sprite);
@@ -39,10 +39,12 @@ namespace MacPan
 
         }
 
-        public bool checkCollision()
+        public bool checkCollision(MovingBody other)
         {
-            //todo add collision logic
-            return false;
+            return !(this.bodyPos.X  > other.bodyPos.X + other.sprite.Width
+    || this.bodyPos.X + this.sprite.Width < other.bodyPos.X
+    || this.bodyPos.Y > other.bodyPos.Y + other.sprite.Width
+    || this.bodyPos.Y + this.sprite.Width < other.bodyPos.Y);
         }
 
         public virtual void update()
