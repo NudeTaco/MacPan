@@ -80,7 +80,8 @@ namespace MacPan
                     if (board[i, ii].Equals(Tile.tiles.wall))
                     {
                         //todo create 2d array for tiles(class)
-                        gameboard[i,ii] = new Tile(canvas, Tile.tiles.wall,new Point(tileSize*i,tileSize*i));
+                        gameboard[i,ii] = new Tile(canvas, Tile.tiles.wall,new Point(tileSize*ii,tileSize*i));
+                        
                     }
                 }
             }
