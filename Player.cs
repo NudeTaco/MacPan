@@ -25,17 +25,18 @@ namespace MacPan
             this.speed = 10;
             powerUpTimer.Elapsed += (sender, args) => { canEat = false; powerUpTimer.Stop(); };
             this.bodyOrient = direction.none;
+            this.bodyPos = new Point(100, 100);
             //todo fine tune speed
             this.speed = 5;
         }
-        public void update(Ghost[] ghosts)
+        public void update(Ghost[] ghosts,Tile[,] tiles)
         {
             //todo add update logic
             if (Keyboard.IsKeyDown(Key.W)) this.bodyOrient = direction.up;
             if (Keyboard.IsKeyDown(Key.D)) this.bodyOrient = direction.right;
             if (Keyboard.IsKeyDown(Key.S)) this.bodyOrient = direction.down;
             if (Keyboard.IsKeyDown(Key.A)) this.bodyOrient = direction.left;
-            base.update();
+            base.update(true,true,tiles);
             checkCollision(ghosts);
             drawBody();
         }

@@ -11,6 +11,7 @@ namespace MacPan
     {
         public enum ghostNames { Pinky, Blinky, Inky, Clyde, Frank }
         public ghostNames ghostName;
+        private bool isActive;
 
         public Ghost(ghostNames name, Canvas c) : base(c,name.ToString())
         {

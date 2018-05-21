@@ -23,6 +23,8 @@ namespace MacPan
     public partial class MainWindow : Window
     {
 
+        private bool mapLoaded = false;
+
         //todo add player and ghost variables after making constructors.
         DispatcherTimer gameTimer = new DispatcherTimer();
         public int fps = 60;
@@ -44,7 +46,6 @@ namespace MacPan
         Tile[,] gameboard;
         public MainWindow()
         {
-            ghosts =new Ghost[] { Clyde, Pinky, Blinky, Inky }; 
             //todo populate pill list
             gameboard = new Tile[board.GetLength(0), board.GetLength(1)];
             for (int i = 0; i < board.GetLength(0); i++)
@@ -61,39 +62,38 @@ namespace MacPan
             }
             InitializeComponent();
             Clyde = new Ghost(Ghost.ghostNames.Clyde, canvas);
-            //Pinky = new Ghost(Ghost.ghostNames.Pinky, canvas);
-            //Blinky = new Ghost(Ghost.ghostNames.Blinky, canvas);
-            //Inky = new Ghost(Ghost.ghostNames.Inky, canvas);
+            Pinky = new Ghost(Ghost.ghostNames.Pinky, canvas);
+            Blinky = new Ghost(Ghost.ghostNames.Blinky, canvas);
+            Inky = new Ghost(Ghost.ghostNames.Inky, canvas);
+            ghosts = new Ghost[] { Clyde, Pinky, Blinky, Inky };
             player = new Player(canvas);
             gameTimer.Tick += gameTick;
             gameTimer.Interval += new TimeSpan(0, 0, 0, 0, 1000 / fps);
-            gameTimer.Start();
 
-            DrawWall(canvas);
+            DrawWalls(canvas);
+            gameTimer.Start();
+            //Console.WriteLine(gameboard[0, 0].ToString());
         }
 
-        private void DrawWall(Canvas c)
+        private void DrawWalls(Canvas c)
         {
             int tileSize = 100;
             for (int i = 0; i < 5; i++)
             {
-                for (int ii = 0; ii < 5; ii++)
+                for (int x = 0; x < 5; x++)
                 {
-                    if (board[i, ii].Equals(Tile.tiles.wall))
-                    {
-                        //todo create 2d array for tiles(class)
-                        gameboard[i,ii] = new Tile(canvas, Tile.tiles.wall,new Point(tileSize*ii,tileSize*i));
-                        
-                    }
+                        gameboard[i,x] = new Tile(canvas, board[i,x],new Point(tileSize*x,tileSize*i));
                 }
             }
+            mapLoaded = true;
         }
 
         private void gameTick(object sender, EventArgs e)
         {
             //todo add game update calls 
-            player.update(ghosts);
-            Console.WriteLine(player.checkCollision(Clyde));
+            Console.WriteLine(gameboard[0, 0].ToString());
+            if (mapLoaded)player.update(ghosts, gameboard);
+            //Console.WriteLine(player.checkCollision(Clyde));
         }
 
     }

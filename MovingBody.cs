@@ -17,18 +17,19 @@ namespace MacPan
         public enum direction { up, right, down, left, none };
         protected int speed;
         protected direction bodyOrient;
-        private Point bodyPos;
+        protected Point bodyPos;
         protected Rectangle sprite;
         public Point BodyPos { get => bodyPos; }
         public direction BodyOrient { get => bodyOrient; }
         public Rectangle Sprite { get => sprite; }
+        private bool canMove = false;
 
         public MovingBody(Canvas c, string name)
         {
             sprite = new Rectangle();
             this.sprite.Fill = new ImageBrush(new BitmapImage(new Uri(string.Format("pack://application:,,,/Images/{0}.png", name))));
-            sprite.Height = 128;
-            sprite.Width = 128;
+            sprite.Height = 100;
+            sprite.Width = 100;
             c.Children.Add(sprite);
         }
 
@@ -46,32 +47,68 @@ namespace MacPan
     || this.bodyPos.Y > other.bodyPos.Y + other.sprite.Width
     || this.bodyPos.Y + this.sprite.Width < other.bodyPos.Y);
         }
-
-        public virtual void update()
+        public bool checkCollision(Tile[,] tiles)
         {
-            //todo add update logic
+            int x = (int) (this.bodyPos.X / this.sprite.Width);
+            int y = (int)(this.bodyPos.Y / this.sprite.Height);
+            if (!((this.bodyPos.X / this.sprite.Width) - x>0.95 || (this.bodyPos.X / this.sprite.Width) - x < 0.05)&& (bodyOrient == direction.left || bodyOrient == direction.right) ) return false;
+            if (!((this.bodyPos.Y / this.sprite.Height) - y > 0.95 || (this.bodyPos.Y / this.sprite.Height) - y < 0.05) && (bodyOrient == direction.up || bodyOrient == direction.down)) return false;
+            switch (BodyOrient)
+            {
+                case direction.up:
+                    y--;
+                    break;
+                case direction.right:
+                    x++;
+                    break;
+                case direction.down:
+                    y++;
+                    break;
+                case direction.left:
+                    x--;
+                    break;
+                default:
+                    return false;
+            }
+            if (x < 0 || y < 0 || x >= tiles.GetLength(1) || y >= tiles.GetLength(0)) return false;
+            Console.WriteLine(tiles[x, y].ToString());
+            if (tiles[y, x].Type.Equals(Tile.tiles.wall)) return true;
+            else return false;
+        }
+
+        public virtual void update(bool checkForWalls, bool rotate, Tile[,] tiles)
+        {
+            canMove = true;
+            if(checkForWalls && this.checkCollision(tiles))
+            {
+                canMove = false;
+            }
             switch (bodyOrient)
             {
                 case direction.up:
-                    this.bodyPos.Y -= speed;
-                    sprite.RenderTransform = new RotateTransform(270, sprite.Width / 2, sprite.Height / 2);
+                    if(canMove) this.bodyPos.Y -= speed;
+                    if(rotate) sprite.RenderTransform = new RotateTransform(270, sprite.Width / 2, sprite.Height / 2);
                     break;
                 case direction.down:
-                    this.bodyPos.Y += speed;
-                    sprite.RenderTransform = new RotateTransform(90, sprite.Width / 2, sprite.Height / 2);
+                    if (canMove) this.bodyPos.Y += speed;
+                    if (rotate) sprite.RenderTransform = new RotateTransform(90, sprite.Width / 2, sprite.Height / 2);
                     break;
                 case direction.left:
-                    this.bodyPos.X -= speed;
-                    sprite.RenderTransform = new ScaleTransform(-1, 1, sprite.Width / 2, sprite.Height / 2);
+                    if (canMove) this.bodyPos.X -= speed;
+                    if (rotate) sprite.RenderTransform = new ScaleTransform(-1, 1, sprite.Width / 2, sprite.Height / 2);
                     break;
                 case direction.right:
-                    this.bodyPos.X += speed;
-                    sprite.RenderTransform = new RotateTransform(0, sprite.Width / 2, sprite.Height / 2);
+                    if (canMove) this.bodyPos.X += speed;
+                    if (rotate) sprite.RenderTransform = new RotateTransform(0, sprite.Width / 2, sprite.Height / 2);
                     break;
                 default:
-                    Console.WriteLine("no move");
+                    //Console.WriteLine("no move");
                     break;
             }
+        }
+        public virtual void update()
+        {
+            update(false, false, null);
         }
     }
 }
