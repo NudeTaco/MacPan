@@ -23,6 +23,7 @@ namespace MacPan
         public direction BodyOrient { get => bodyOrient; }
         public Rectangle Sprite { get => sprite; }
         private bool canMove = false;
+        protected direction nextOrient;
 
         public MovingBody(Canvas c, string name)
         {
@@ -47,13 +48,11 @@ namespace MacPan
     || this.bodyPos.Y > other.bodyPos.Y + other.sprite.Width
     || this.bodyPos.Y + this.sprite.Width < other.bodyPos.Y);
         }
-        public bool checkCollision(Tile[,] tiles)
+        public bool checkCollision(Tile[,] tiles, direction d)
         {
-            int x = (int) (this.bodyPos.X / this.sprite.Width);
-            int y = (int)(this.bodyPos.Y / this.sprite.Height);
-            if (!((this.bodyPos.X / this.sprite.Width) - x>0.95 || (this.bodyPos.X / this.sprite.Width) - x < 0.05)&& (bodyOrient == direction.left || bodyOrient == direction.right) ) return false;
-            if (!((this.bodyPos.Y / this.sprite.Height) - y > 0.95 || (this.bodyPos.Y / this.sprite.Height) - y < 0.05) && (bodyOrient == direction.up || bodyOrient == direction.down)) return false;
-            switch (BodyOrient)
+            int x = (int)((this.bodyPos.X) / this.sprite.Width);
+            int y = (int)((this.bodyPos.Y) / this.sprite.Height);
+            switch (d)
             {
                 case direction.up:
                     y--;
@@ -70,21 +69,30 @@ namespace MacPan
                 default:
                     return false;
             }
-            if (x < 0 || y < 0 || x >= tiles.GetLength(1) || y >= tiles.GetLength(0)) return false;
-            Console.WriteLine(tiles[x, y].ToString());
-            if (tiles[y, x].Type.Equals(Tile.tiles.wall)) return true;
-            else return false;
+            if (x < 0 || y < 0 || x >= tiles.GetLength(1) || y >= tiles.GetLength(0)) return true;
+            Console.WriteLine(tiles[y, x].ToString());
+            Console.WriteLine(string.Format("player at: {0}, {1}, moving {2}", this.bodyPos.X, this.bodyPos.Y, bodyOrient));
+            Tile t = tiles[y, x];
+            return (this.intersectsWith(t) && tiles[y, x].Type.Equals(Tile.tiles.wall));
         }
 
         public virtual void update(bool checkForWalls, bool rotate, Tile[,] tiles)
         {
             canMove = true;
-            if(checkForWalls && this.checkCollision(tiles))
+
+            if ((this.bodyPos.X % Tile.tileSize == 0 && this.bodyPos.Y % Tile.tileSize == 0) || Math.Abs(this.nextOrient-this.bodyOrient) == 2)
+            {
+                if (checkForWalls && !this.checkCollision(tiles, nextOrient))
+                {
+                    bodyOrient = nextOrient;
+                }
+            }
+            if (checkForWalls && this.checkCollision(tiles, bodyOrient))
             {
                 canMove = false;
             }
             switch (bodyOrient)
-            {
+                {
                 case direction.up:
                     if(canMove) this.bodyPos.Y -= speed;
                     if(rotate) sprite.RenderTransform = new RotateTransform(270, sprite.Width / 2, sprite.Height / 2);
@@ -110,5 +118,14 @@ namespace MacPan
         {
             update(false, false, null);
         }
+
+        public bool intersectsWith(Tile t)
+        {
+            return !(this.bodyPos.X > t.Location.X + t.Sprite.Width
+        || this.bodyPos.X + this.sprite.Width < t.Location.X
+        || this.bodyPos.Y > t.Location.Y + t.Sprite.Width
+        || this.bodyPos.Y + this.sprite.Width < t.Location.Y);
+        }
+
     }
 }

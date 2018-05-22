@@ -38,14 +38,13 @@ namespace MacPan
         Ghost[] ghosts;
         List<Pill> pillList = new List<Pill>();
         //todo add logic for reading custom maps
-        Tile.tiles[,] board = { { Tile.tiles.wall, Tile.tiles.wall, Tile.tiles.wall, Tile.tiles.wall, Tile.tiles.wall },
-                                        { Tile.tiles.wall, Tile.tiles.blank, Tile.tiles.blank, Tile.tiles.blank, Tile.tiles.wall,},
-                                        { Tile.tiles.wall, Tile.tiles.blank, Tile.tiles.superPill, Tile.tiles.blank, Tile.tiles.wall, },
-                                         { Tile.tiles.wall, Tile.tiles.blank, Tile.tiles.blank, Tile.tiles.blank, Tile.tiles.wall,},
-                                         { Tile.tiles.wall, Tile.tiles.wall, Tile.tiles.wall, Tile.tiles.wall, Tile.tiles.wall,}};
+        Tile.tiles[,] board;
         Tile[,] gameboard;
         public MainWindow()
         {
+            InitializeComponent();
+            MapParser parser = new MapParser("map1");
+            board = parser.readMap();
             //todo populate pill list
             gameboard = new Tile[board.GetLength(0), board.GetLength(1)];
             for (int i = 0; i < board.GetLength(0); i++)
@@ -55,12 +54,11 @@ namespace MacPan
                     if (board[i, c] == Tile.tiles.blank || board[i, c] == Tile.tiles.superPill)
                     {
                         //todo have pills location be dynamic
-                        Pill p = new Pill(board[i, c] == Tile.tiles.superPill, new Point());
+                        Pill p = new Pill(board[i, c] == Tile.tiles.superPill, new Point(c*Tile.tileSize,i*Tile.tileSize), canvas);
                         pillList.Add(p);
                     }
                 }
             }
-            InitializeComponent();
             Clyde = new Ghost(Ghost.ghostNames.Clyde, canvas);
             Pinky = new Ghost(Ghost.ghostNames.Pinky, canvas);
             Blinky = new Ghost(Ghost.ghostNames.Blinky, canvas);
@@ -73,14 +71,15 @@ namespace MacPan
             DrawWalls(canvas);
             gameTimer.Start();
             //Console.WriteLine(gameboard[0, 0].ToString());
+            canvas.Background = Brushes.Black;
         }
 
         private void DrawWalls(Canvas c)
         {
             int tileSize = 100;
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < board.GetLength(0); i++)
             {
-                for (int x = 0; x < 5; x++)
+                for (int x = 0; x < board.GetLength(1); x++)
                 {
                         gameboard[i,x] = new Tile(canvas, board[i,x],new Point(tileSize*x,tileSize*i));
                 }
@@ -91,7 +90,7 @@ namespace MacPan
         private void gameTick(object sender, EventArgs e)
         {
             //todo add game update calls 
-            Console.WriteLine(gameboard[0, 0].ToString());
+            //Console.WriteLine(gameboard[0, 0].ToString());
             if (mapLoaded)player.update(ghosts, gameboard);
             //Console.WriteLine(player.checkCollision(Clyde));
         }

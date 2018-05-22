@@ -19,7 +19,7 @@ namespace MacPan
         public Rectangle Sprite { get => sprite; }
         private tiles type;
         public tiles Type { get => type; }
-        int tileSize = 100;
+        public static int tileSize = 100;
 
         public Tile(Canvas c, tiles type, Point loc)
         {

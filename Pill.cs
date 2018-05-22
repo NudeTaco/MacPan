@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace MacPan
@@ -19,25 +20,19 @@ namespace MacPan
         public double Radius { get => radius; }
         public Point Location { get => location; }
         public Rectangle Sprite { get => sprite; }
-        public Pill(Canvas c)
-        {
-            sprite = new Rectangle();
-            sprite.Height = 10;
-            sprite.Width = 10;
-            sprite.Fill = Brushes.Black;
-            Canvas.SetTop(sprite, location.Y);
-            Canvas.SetTop(sprite, location.X);
-            c.Children.Add(sprite);
-        }
-        public Pill(bool isSuperPill, Point loc)
+        public Pill(bool isSuperPill, Point loc, Canvas c)
         {
             //They may try to deter us, but they will never quench our thirst to code.
-            this.powerPill = isSuperPill;
             this.location = loc;
-        }
-        public void destroy()
-        {
-            //todo add destroy logic
+            this.powerPill = isSuperPill;
+            sprite = new Rectangle();
+            sprite.Height = 100;
+            sprite.Width = 100;
+            this.sprite.Fill = new ImageBrush(new BitmapImage(new Uri(String.Format("pack://application:,,,/Images/{0}.png", powerPill ? "SuperPill" : "Pill"))));
+            //this.sprite.Fill = Brushes.Red;
+            Canvas.SetTop(sprite, location.Y);
+            Canvas.SetLeft(sprite, location.X);
+            c.Children.Add(sprite);
         }
     }
 }

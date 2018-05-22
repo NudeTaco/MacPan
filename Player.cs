@@ -25,6 +25,7 @@ namespace MacPan
             this.speed = 10;
             powerUpTimer.Elapsed += (sender, args) => { canEat = false; powerUpTimer.Stop(); };
             this.bodyOrient = direction.none;
+            this.nextOrient = direction.none;
             this.bodyPos = new Point(100, 100);
             //todo fine tune speed
             this.speed = 5;
@@ -32,10 +33,10 @@ namespace MacPan
         public void update(Ghost[] ghosts,Tile[,] tiles)
         {
             //todo add update logic
-            if (Keyboard.IsKeyDown(Key.W)) this.bodyOrient = direction.up;
-            if (Keyboard.IsKeyDown(Key.D)) this.bodyOrient = direction.right;
-            if (Keyboard.IsKeyDown(Key.S)) this.bodyOrient = direction.down;
-            if (Keyboard.IsKeyDown(Key.A)) this.bodyOrient = direction.left;
+            if (Keyboard.IsKeyDown(Key.W)) this.nextOrient = direction.up;
+            if (Keyboard.IsKeyDown(Key.D)) this.nextOrient = direction.right;
+            if (Keyboard.IsKeyDown(Key.S)) this.nextOrient = direction.down;
+            if (Keyboard.IsKeyDown(Key.A)) this.nextOrient = direction.left;
             base.update(true,true,tiles);
             checkCollision(ghosts);
             drawBody();
