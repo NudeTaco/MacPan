@@ -43,7 +43,7 @@ namespace MacPan
         public MainWindow()
         {
             InitializeComponent();
-            MapParser parser = new MapParser("map1");
+            MapParser parser = new MapParser("Map1");
             board = parser.readMap();
             //todo populate pill list
             gameboard = new Tile[board.GetLength(0), board.GetLength(1)];
@@ -76,12 +76,11 @@ namespace MacPan
 
         private void DrawWalls(Canvas c)
         {
-            int tileSize = 100;
             for (int i = 0; i < board.GetLength(0); i++)
             {
                 for (int x = 0; x < board.GetLength(1); x++)
                 {
-                        gameboard[i,x] = new Tile(canvas, board[i,x],new Point(tileSize*x,tileSize*i));
+                        gameboard[i,x] = new Tile(canvas, board[i,x],new Point(Tile.tileSize*x,Tile.tileSize*i));
                 }
             }
             mapLoaded = true;
@@ -91,7 +90,19 @@ namespace MacPan
         {
             //todo add game update calls 
             //Console.WriteLine(gameboard[0, 0].ToString());
-            if (mapLoaded)player.update(ghosts, gameboard);
+            if (mapLoaded)
+            {
+                if (pillList.Count == 0) mapLoaded = false;
+                player.update(ghosts, gameboard);
+                for(int i = 0;i < pillList.Count;i++)
+                {
+                    if (player.checkCollision(pillList.ElementAt(i)))
+                    {
+                        pillList.ElementAt(i).eat();
+                        pillList.RemoveAt(i);
+                    }
+                }
+            }
             //Console.WriteLine(player.checkCollision(Clyde));
         }
 

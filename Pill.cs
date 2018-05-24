@@ -26,13 +26,17 @@ namespace MacPan
             this.location = loc;
             this.powerPill = isSuperPill;
             sprite = new Rectangle();
-            sprite.Height = 100;
-            sprite.Width = 100;
+            sprite.Height = Tile.tileSize;
+            sprite.Width = Tile.tileSize;
             this.sprite.Fill = new ImageBrush(new BitmapImage(new Uri(String.Format("pack://application:,,,/Images/{0}.png", powerPill ? "SuperPill" : "Pill"))));
             //this.sprite.Fill = Brushes.Red;
             Canvas.SetTop(sprite, location.Y);
             Canvas.SetLeft(sprite, location.X);
             c.Children.Add(sprite);
+        }
+        public void eat()
+        {
+            this.sprite.Fill = Brushes.Transparent;
         }
     }
 }

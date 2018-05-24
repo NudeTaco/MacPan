@@ -29,8 +29,8 @@ namespace MacPan
         {
             sprite = new Rectangle();
             this.sprite.Fill = new ImageBrush(new BitmapImage(new Uri(string.Format("pack://application:,,,/Images/{0}.png", name))));
-            sprite.Height = 100;
-            sprite.Width = 100;
+            sprite.Height = Tile.tileSize;
+            sprite.Width = Tile.tileSize;
             c.Children.Add(sprite);
         }
 
