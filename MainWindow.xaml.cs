@@ -43,7 +43,7 @@ namespace MacPan
         public MainWindow()
         {
             InitializeComponent();
-            MapParser parser = new MapParser("Map1");
+            MapParser parser = new MapParser("map1");
             board = parser.readMap();
             //todo populate pill list
             gameboard = new Tile[board.GetLength(0), board.GetLength(1)];
@@ -54,7 +54,7 @@ namespace MacPan
                     if (board[i, c] == Tile.tiles.blank || board[i, c] == Tile.tiles.superPill)
                     {
                         //todo have pills location be dynamic
-                        Pill p = new Pill(board[i, c] == Tile.tiles.superPill, new Point(c*Tile.tileSize,i*Tile.tileSize), canvas);
+                        Pill p = new Pill(board[i, c] == Tile.tiles.superPill, new Point(c * Tile.tileSize, i * Tile.tileSize), canvas);
                         pillList.Add(p);
                     }
                 }
@@ -72,6 +72,19 @@ namespace MacPan
             gameTimer.Start();
             //Console.WriteLine(gameboard[0, 0].ToString());
             canvas.Background = Brushes.Black;
+            Rectangle statusBlock = new Rectangle();
+            statusBlock.Height = 100;
+            statusBlock.Width = 525;
+            statusBlock.Fill = Brushes.Red;
+            Canvas.SetBottom(statusBlock, 0);
+            Canvas.SetLeft(statusBlock, 0);
+            TextBlock txtInfo = new TextBlock();
+            txtInfo.Text = "Lives: " + lives.ToString() + "" + "\n" + "Level: " + "n/a";
+            txtInfo.FontSize = 20;
+            Canvas.SetBottom(txtInfo, statusBlock.Height - txtInfo.FontSize - 10);
+            Canvas.SetLeft(txtInfo, 10);
+            canvas.Children.Add(statusBlock);
+            canvas.Children.Add(txtInfo);
         }
 
         private void DrawWalls(Canvas c)
@@ -80,7 +93,7 @@ namespace MacPan
             {
                 for (int x = 0; x < board.GetLength(1); x++)
                 {
-                        gameboard[i,x] = new Tile(canvas, board[i,x],new Point(Tile.tileSize*x,Tile.tileSize*i));
+                    gameboard[i, x] = new Tile(canvas, board[i, x], new Point(Tile.tileSize * x, Tile.tileSize * i));
                 }
             }
             mapLoaded = true;
@@ -94,7 +107,7 @@ namespace MacPan
             {
                 if (pillList.Count == 0) mapLoaded = false;
                 player.update(ghosts, gameboard);
-                for(int i = 0;i < pillList.Count;i++)
+                for (int i = 0; i < pillList.Count; i++)
                 {
                     if (player.checkCollision(pillList.ElementAt(i)))
                     {
