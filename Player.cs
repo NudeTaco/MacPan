@@ -76,10 +76,10 @@ namespace MacPan
 
         public bool checkCollision(Pill p)
         {
-            if (!(this.bodyPos.X > p.Location.X + p.Sprite.Width * 4
-    || this.bodyPos.X + this.sprite.Width * 4 < p.Location.X
-    || this.bodyPos.Y > p.Location.Y + p.Sprite.Width * 4
-    || this.bodyPos.Y + this.sprite.Width * 4 < p.Location.Y))
+            if (!(this.bodyPos.X > p.Location.X + p.Sprite.Width / 4
+    || this.bodyPos.X + this.sprite.Width / 4 < p.Location.X
+    || this.bodyPos.Y > p.Location.Y + p.Sprite.Width / 4
+    || this.bodyPos.Y + this.sprite.Width / 4 < p.Location.Y))
             {
                 if(p.powerPill)this.powerUp();
                 return true;

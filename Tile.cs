@@ -10,7 +10,7 @@ using System.Windows.Shapes;
 
 namespace MacPan
 {
-    class Tile
+    public class Tile
     {
         public enum tiles { blank, wall, ghostGate, superPill }
         private Rectangle sprite = new Rectangle();
